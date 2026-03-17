@@ -1,0 +1,13 @@
+node_modules/
+dist/
+build/
+.next/
+out/
+coverage/
+public/
+.angular/
+*.min.js
+*.d.ts
+package-lock.json
+pnpm-lock.yaml
+yarn.lock

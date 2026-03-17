@@ -155,8 +155,8 @@ export default [
         { selector: 'typeLike', format: ['PascalCase'] },
         // Enum members: PascalCase or UPPER_CASE
         { selector: 'enumMember', format: ['PascalCase', 'UPPER_CASE'] },
-        // Parameters: camelCase (allow leading _ for unused)
-        { selector: 'parameter', format: ['camelCase'], leadingUnderscore: 'allow' },
+        // Parameters: camelCase or PascalCase (PascalCase for React component props, e.g. icon: Icon)
+        { selector: 'parameter', format: ['camelCase', 'PascalCase'], leadingUnderscore: 'allow' },
       ],
 
       // Explicit return types on module boundaries (relax for components/hooks)

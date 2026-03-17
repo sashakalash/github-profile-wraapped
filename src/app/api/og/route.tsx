@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
     const headers: Record<string, string> = {
       Accept: 'application/vnd.github.v3+json',
     };
-    if (token) headers['Authorization'] = `Bearer ${token}`;
+    if (token) headers.Authorization = `Bearer ${token}`;
 
     const [userRes, reposRes] = await Promise.all([
       fetch(`https://api.github.com/users/${username}`, { headers }),
@@ -63,7 +63,7 @@ export async function GET(req: NextRequest) {
     // Use defaults
   }
 
-  let avatarData: string = '';
+  let avatarData = '';
   if (avatar) {
     try {
       const res = await fetch(avatar);
@@ -90,7 +90,6 @@ export async function GET(req: NextRequest) {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '32px' }}>
         {avatarData && (
-          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={avatarData}
             alt=""

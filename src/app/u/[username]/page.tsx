@@ -15,11 +15,11 @@ import { CopyButton } from '@/components/ui/CopyButton';
 export const revalidate = 21600;
 
 interface Props {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { username } = params;
+  const { username } = await params;
   const result = await fetchProfileData(username);
 
   if (result.error || !result.data) {
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProfilePage({ params }: Props) {
-  const { username } = params;
+  const { username } = await params;
   const result = await fetchProfileData(username);
 
   if (result.error === 'not_found') notFound();

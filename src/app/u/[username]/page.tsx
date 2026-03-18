@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { ArrowLeft } from 'lucide-react';
@@ -9,21 +8,11 @@ import { StatCards } from '@/components/profile/StatCards';
 import { LanguageChart } from '@/components/profile/LanguageChart';
 import { TopRepos } from '@/components/profile/TopRepos';
 import { ContributionSection } from '@/components/profile/ContributionSection';
+import { ActivityCharts } from '@/components/profile/ActivityCharts';
 import { Card } from '@/components/ui/Card';
 import { CopyButton } from '@/components/ui/CopyButton';
-import { Skeleton } from '@/components/ui/Skeleton';
 
 export const revalidate = 21600;
-
-const CommitsByWeekday = dynamic(
-  () => import('@/components/profile/CommitsByWeekday').then((m) => m.CommitsByWeekday),
-  { ssr: false, loading: () => <Skeleton className="h-28 w-full" /> }
-);
-
-const CommitsByHour = dynamic(
-  () => import('@/components/profile/CommitsByHour').then((m) => m.CommitsByHour),
-  { ssr: false, loading: () => <Skeleton className="h-28 w-full" /> }
-);
 
 interface Props {
   params: { username: string };
@@ -132,14 +121,7 @@ export default async function ProfilePage({ params }: Props) {
       </div>
 
       {/* Commit activity charts */}
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card title="Commits by Day of Week">
-          <CommitsByWeekday data={weekdayActivity} />
-        </Card>
-        <Card title="Commits by Hour (UTC)">
-          <CommitsByHour data={hourActivity} />
-        </Card>
-      </div>
+      <ActivityCharts weekdayActivity={weekdayActivity} hourActivity={hourActivity} />
     </div>
   );
 }

@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GitHub Profile Wrapped
+
+Spotify Wrapped-style analytics dashboard for any GitHub profile. Enter a username — get a shareable page with contribution heatmaps, language breakdowns, streak stats, and activity charts. No login required.
+
+## Tech Stack
+
+- **Next.js 16** (App Router, ISR with 6h revalidation)
+- **TypeScript** (strict mode)
+- **Tailwind CSS**
+- **Nivo** — bar, calendar, pie charts
+- **TanStack Query** — client-side data fetching
+- **NextAuth** — GitHub OAuth
+- **@vercel/og** — dynamic OG images for social sharing
+
+## Features
+
+- Contribution heatmap (52-week calendar grid)
+- Language breakdown (top 6 by bytes)
+- Top starred repositories
+- Commit activity by day of week and hour
+- Streak statistics (current, longest, total active days)
+- Dark/light theme toggle
+- Skeleton loading states
+- Copy-to-share URL button
+- Dynamic OG images per profile
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+cp .env.example .env.local
+# fill in the values (see below)
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable               | Required    | Description                                                                 |
+| ---------------------- | ----------- | --------------------------------------------------------------------------- |
+| `GITHUB_TOKEN`         | Recommended | Fine-grained PAT (`read:user`) — enables contribution heatmap without OAuth |
+| `GITHUB_CLIENT_ID`     | For OAuth   | GitHub OAuth App client ID                                                  |
+| `GITHUB_CLIENT_SECRET` | For OAuth   | GitHub OAuth App secret                                                     |
+| `NEXTAUTH_URL`         | Yes         | App URL (`http://localhost:3000` for dev)                                   |
+| `NEXTAUTH_SECRET`      | Yes         | Generate: `openssl rand -base64 32`                                         |
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run dev        # Start dev server
+npm run build      # Production build
+npm run lint       # Check linting
+npm run lint:fix   # Auto-fix lint issues
+npm run format     # Format with Prettier
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/
+├── app/
+│   ├── api/          # Auth, contributions, OG image endpoints
+│   ├── u/[username]/ # Profile page
+│   └── page.tsx      # Home (search)
+├── components/
+│   ├── home/         # SearchForm, ExampleChips
+│   ├── profile/      # ProfileHeader, StatCards, Charts, etc.
+│   └── ui/           # Card, Badge, CopyButton, ThemeToggle
+├── lib/
+│   └── github/       # REST + GraphQL clients, data aggregation
+└── types/            # TypeScript interfaces
+```

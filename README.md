@@ -2,6 +2,8 @@
 
 Spotify Wrapped-style analytics dashboard for any GitHub profile. Enter a username — get a shareable page with contribution heatmaps, language breakdowns, streak stats, and activity charts. No login required.
 
+https://github-profile-wraapped.vercel.app/
+
 ## Tech Stack
 
 - **Next.js 16** (App Router, ISR with 6h revalidation)
